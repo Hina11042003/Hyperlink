@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevProfile — Success!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0a0a0f; --surface: #13131a; --border: #1e1e2e;
+            --accent: #7c6fff; --accent2: #ff6f91;
+            --text: #e8e8f0; --muted: #6b6b80; --card: #16161f;
+            --success: #4ade80;
+        }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh; overflow-x: hidden;
+            display: flex; flex-direction: column;
+        }
+
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.2rem 4rem;
+            background: rgba(10,10,15,0.85); backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.03em; }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text); }
+        .nav-cta { background: var(--accent); color: #fff; text-decoration: none; padding: 0.55rem 1.4rem; border-radius: 8px; font-size: 0.88rem; font-weight: 600; }
+
+        .success-wrap {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            padding: 7rem 1.5rem 3rem; position: relative;
+        }
+        .success-wrap::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(74,222,128,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .success-card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 28px; padding: 4rem 3.5rem;
+            width: 100%; max-width: 520px;
+            text-align: center; position: relative; z-index: 1;
+        }
+
+        /* Animated checkmark */
+        .check-wrap {
+            width: 90px; height: 90px; margin: 0 auto 2rem;
+            position: relative;
+        }
+        .check-circle {
+            width: 90px; height: 90px; border-radius: 50%;
+            background: rgba(74,222,128,0.1);
+            border: 2px solid rgba(74,222,128,0.3);
+            display: flex; align-items: center; justify-content: center;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+        .check-icon {
+            font-size: 2.5rem;
+            animation: popIn 0.5s 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+        @keyframes popIn {
+            from { transform: scale(0); opacity: 0; }
+            to   { transform: scale(1); opacity: 1; }
+        }
+
+        .success-tag {
+            display: inline-block;
+            background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.25);
+            color: var(--success); font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 0.35rem 0.9rem; border-radius: 100px; margin-bottom: 1.2rem;
+        }
+
+        .success-card h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem; font-weight: 700; letter-spacing: -0.03em;
+            margin-bottom: 0.8rem;
+            animation: slideUp 0.5s 0.3s both;
+        }
+        .success-card p {
+            color: var(--muted); font-size: 0.95rem; line-height: 1.7;
+            margin-bottom: 2.5rem;
+            animation: slideUp 0.5s 0.4s both;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(16px); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+
+        .success-details {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 14px; padding: 1.5rem;
+            margin-bottom: 2rem; text-align: left;
+            animation: slideUp 0.5s 0.5s both;
+        }
+        .detail-row {
+            display: flex; align-items: center; gap: 0.8rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-icon { font-size: 1rem; flex-shrink: 0; }
+        .detail-text { font-size: 0.88rem; color: var(--muted); }
+        .detail-text strong { color: var(--text); font-weight: 500; }
+
+        .btns {
+            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+            animation: slideUp 0.5s 0.6s both;
+        }
+        .btn-primary {
+            background: var(--accent); color: #fff;
+            padding: 0.85rem 1.8rem; border-radius: 10px;
+            text-decoration: none; font-weight: 600; font-size: 0.92rem;
+            transition: transform 0.2s, opacity 0.2s; display: inline-block;
+        }
+        .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+        .btn-outline {
+            border: 1px solid var(--border); color: var(--text);
+            padding: 0.85rem 1.8rem; border-radius: 10px;
+            text-decoration: none; font-weight: 500; font-size: 0.92rem;
+            transition: border-color 0.2s; display: inline-block;
+        }
+        .btn-outline:hover { border-color: var(--accent); }
+
+        /* Confetti dots */
+        .confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+        .dot {
+            position: absolute; width: 8px; height: 8px; border-radius: 50%;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+        footer p { color: var(--muted); font-size: 0.85rem; }
+
+        .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); opacity: 0.15; }
+        .orb1 { width: 400px; height: 400px; background: var(--success); top: -100px; right: -100px; }
+        .orb2 { width: 300px; height: 300px; background: var(--accent); bottom: 100px; left: -80px; }
+    </style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<!-- Confetti -->
+<div class="confetti" id="confetti"></div>
+
+<nav>
+    <a href="{% url 'home' %}" class="nav-logo">Dev<span>Profile</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'registration' %}">Register</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+<div class="success-wrap">
+    <div class="success-card">
+
+        <div class="check-wrap">
+            <div class="check-circle">
+                <div class="check-icon">✓</div>
+            </div>
+        </div>
+
+        <div class="success-tag">✦ Registration Complete</div>
+        <h1>You're all set!</h1>
+        <p>Your developer profile has been successfully created and saved to the database. Welcome aboard!</p>
+
+        <div class="success-details">
+            <div class="detail-row">
+                <div class="detail-icon">✅</div>
+                <div class="detail-text"><strong>Form validated</strong> — all fields passed server-side checks</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-icon">🗄️</div>
+                <div class="detail-text"><strong>Data saved</strong> — stored securely in the database</div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-icon">🛡️</div>
+                <div class="detail-text"><strong>CSRF protected</strong> — request verified and secure</div>
+            </div>
+        </div>
+
+        <div class="btns">
+            <a href="{% url 'home' %}" class="btn-primary">Go Home →</a>
+            <a href="{% url 'registration' %}" class="btn-outline">Register Another</a>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 DevProfile — Built with Django</p>
+</footer>
+
+<script>
+    // Generate confetti dots
+    const confetti = document.getElementById('confetti');
+    const colors = ['#7c6fff','#ff6f91','#4ade80','#fbbf24','#38bdf8'];
+    for (let i = 0; i < 40; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        dot.style.cssText = `
+            left: ${Math.random() * 100}%;
+            background: ${colors[Math.floor(Math.random() * colors.length)]};
+            animation-duration: ${2 + Math.random() * 3}s;
+            animation-delay: ${Math.random() * 3}s;
+            width: ${5 + Math.random() * 8}px;
+            height: ${5 + Math.random() * 8}px;
+            border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+        `;
+        confetti.appendChild(dot);
+    }
+    // Stop confetti after 5s
+    setTimeout(() => confetti.style.display = 'none', 5000);
+</script>
+
+</body>
+</html>

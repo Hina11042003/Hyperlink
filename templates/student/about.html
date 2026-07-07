@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevProfile — About</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0a0a0f; --surface: #13131a; --border: #1e1e2e;
+            --accent: #7c6fff; --accent2: #ff6f91;
+            --text: #e8e8f0; --muted: #6b6b80; --card: #16161f;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.2rem 4rem;
+            background: rgba(10,10,15,0.85); backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.03em; }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .nav-cta { background: var(--accent); color: #fff; text-decoration: none; padding: 0.55rem 1.4rem; border-radius: 8px; font-size: 0.88rem; font-weight: 600; transition: opacity 0.2s; }
+        .nav-cta:hover { opacity: 0.85; }
+
+        .page-hero {
+            padding: 10rem 2rem 5rem;
+            text-align: center;
+            position: relative;
+        }
+        .page-hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,111,145,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .eyebrow {
+            display: inline-block;
+            background: rgba(255,111,145,0.1); border: 1px solid rgba(255,111,145,0.25);
+            color: var(--accent2); font-size: 0.78rem; font-weight: 600;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 1.5rem;
+        }
+        .page-hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700; letter-spacing: -0.04em; margin-bottom: 1.2rem;
+        }
+        .page-hero p { color: var(--muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem 6rem; }
+
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 4rem; }
+        @media(max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
+
+        .about-text h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem; font-weight: 700; letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+        .about-text p { color: var(--muted); line-height: 1.8; margin-bottom: 1rem; font-size: 0.95rem; }
+
+        .tech-stack { display: flex; flex-direction: column; gap: 1rem; }
+        .tech-item {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 12px; padding: 1.2rem 1.5rem;
+            display: flex; align-items: center; gap: 1rem;
+            transition: border-color 0.2s, transform 0.2s;
+            text-decoration: none; color: inherit;
+        }
+        .tech-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .tech-icon { font-size: 1.6rem; flex-shrink: 0; }
+        .tech-name { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.95rem; }
+        .tech-desc { color: var(--muted); font-size: 0.82rem; margin-top: 0.15rem; }
+
+        .flow { margin-top: 5rem; }
+        .flow h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem; font-weight: 700; letter-spacing: -0.03em;
+            margin-bottom: 2.5rem; text-align: center;
+        }
+        .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .step {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 14px; padding: 1.8rem;
+            text-align: center; position: relative;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .step:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .step-num {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(124,111,255,0.15); border: 1px solid rgba(124,111,255,0.3);
+            color: var(--accent); font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1rem;
+        }
+        .step h4 { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .step p { color: var(--muted); font-size: 0.83rem; line-height: 1.6; }
+
+        .cta-band {
+            margin-top: 5rem;
+            background: linear-gradient(135deg, rgba(124,111,255,0.12), rgba(255,111,145,0.08));
+            border: 1px solid var(--border); border-radius: 20px;
+            padding: 3.5rem; text-align: center;
+        }
+        .cta-band h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.8rem; }
+        .cta-band p { color: var(--muted); margin-bottom: 2rem; }
+        .btn-primary { background: var(--accent); color: #fff; padding: 0.85rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s, opacity 0.2s; display: inline-block; }
+        .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+
+        footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+        footer p { color: var(--muted); font-size: 0.85rem; }
+        .footer-links { display: flex; gap: 1.5rem; }
+        .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--text); }
+
+        .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); opacity: 0.2; }
+        .orb1 { width: 350px; height: 350px; background: var(--accent2); top: 50px; right: -80px; }
+        .orb2 { width: 280px; height: 280px; background: var(--accent); bottom: 150px; left: -60px; }
+    </style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<nav>
+    <a href="{% url 'home' %}" class="nav-logo">Dev<span>Profile</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'registration' %}">Register</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        {% endif %}
+    </ul>
+</nav>
+<div class="page-hero">
+    <div class="eyebrow">✦ About This Project</div>
+    <h1>What is DevProfile?</h1>
+    <p>A Django-powered registration system that collects, validates, and stores developer profiles.</p>
+</div>
+
+<div class="container">
+    <div class="about-grid">
+        <div class="about-text">
+            <h2>Built with Django Forms</h2>
+            <p>This project demonstrates how Django handles form creation, validation, and database storage — core skills every Django developer needs.</p>
+            <p>Every field in the form is validated on the server side before any data touches the database. Invalid data is rejected with clear error messages shown right next to the field.</p>
+            <p>Once valid, data is saved to a SQLite database using Django's ORM — no raw SQL needed.</p>
+        </div>
+        <div class="tech-stack">
+            <a class="tech-item" href="https://www.python.org/" target="_blank" rel="noopener noreferrer">
+                <div class="tech-icon">🐍</div>
+                <div>
+                    <div class="tech-name">Python & Django</div>
+                    <div class="tech-desc">Backend logic, views, URL routing</div>
+                </div>
+            </a>
+            <a class="tech-item" href="https://docs.djangoproject.com/en/stable/topics/forms/" target="_blank" rel="noopener noreferrer">
+                <div class="tech-icon">📋</div>
+                <div>
+                    <div class="tech-name">Django Forms</div>
+                    <div class="tech-desc">Field definitions, widgets, validation</div>
+                </div>
+            </a>
+            <a class="tech-item" href="https://docs.djangoproject.com/en/stable/topics/db/" target="_blank" rel="noopener noreferrer">
+                <div class="tech-icon">🗄️</div>
+                <div>
+                    <div class="tech-name">Django ORM</div>
+                    <div class="tech-desc">Models, migrations, database queries</div>
+                </div>
+            </a>
+            <a class="tech-item" href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener noreferrer">
+                <div class="tech-icon">🎨</div>
+                <div>
+                    <div class="tech-name">HTML & CSS</div>
+                    <div class="tech-desc">Templates, styling, responsive layout</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="flow">
+        <h2>How it works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <h4>Visit Page</h4>
+                <p>GET request creates an empty form and sends it to the template.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <h4>Fill Form</h4>
+                <p>User fills in name, email, skills, gender, date of birth.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <h4>Submit</h4>
+                <p>POST request sends data to the view with a CSRF token.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <h4>Validate</h4>
+                <p>Django checks every field. Errors are shown if anything is wrong.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">5</div>
+                <h4>Save & Redirect</h4>
+                <p>Valid data is saved to the database and user is redirected to success.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-band">
+        <h2>Ready to register?</h2>
+        <p>Create your developer profile in under a minute.</p>
+        <a href="{% url 'registration' %}" class="btn-primary">Register Now →</a>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 DevProfile — Built with Django</p>
+    <div class="footer-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'registration' %}">Register</a>
+    </div>
+</footer>
+
+</body>
+</html>

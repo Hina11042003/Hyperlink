@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevProfile — Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0a0a0f; --surface: #13131a; --border: #1e1e2e;
+            --accent: #7c6fff; --accent2: #ff6f91;
+            --text: #e8e8f0; --muted: #6b6b80; --card: #16161f;
+            --error: #ff5c5c; --success: #4ade80;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.2rem 4rem;
+            background: rgba(10,10,15,0.85); backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.03em; }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .nav-cta { background: var(--accent); color: #fff; text-decoration: none; padding: 0.55rem 1.4rem; border-radius: 8px; font-size: 0.88rem; font-weight: 600; }
+
+        .page-wrap {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            padding: 7rem 1.5rem 3rem;
+            position: relative;
+        }
+        .page-wrap::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse 70% 50% at 50% 20%, rgba(124,111,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .form-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem 3.5rem;
+            width: 100%; max-width: 600px;
+            position: relative; z-index: 1;
+        }
+
+        .form-header { margin-bottom: 2.5rem; }
+        .form-eyebrow {
+            display: inline-block;
+            background: rgba(124,111,255,0.1); border: 1px solid rgba(124,111,255,0.25);
+            color: var(--accent); font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 0.35rem 0.9rem; border-radius: 100px; margin-bottom: 1rem;
+        }
+        .form-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem; font-weight: 700; letter-spacing: -0.03em;
+            margin-bottom: 0.4rem;
+        }
+        .form-header p { color: var(--muted); font-size: 0.9rem; }
+
+        /* FORM FIELDS */
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+        @media(max-width: 520px) { .form-row { grid-template-columns: 1fr; } .form-card { padding: 2rem 1.5rem; } }
+
+        .field { margin-bottom: 1.4rem; }
+        .field label {
+            display: block; font-size: 0.83rem; font-weight: 500;
+            color: var(--muted); margin-bottom: 0.5rem; letter-spacing: 0.02em;
+        }
+
+        /* Override Django's default input styling */
+        .field input[type="text"],
+        .field input[type="email"],
+        .field input[type="password"],
+        .field input[type="date"],
+        .field select,
+        .field textarea {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -webkit-appearance: none;
+        }
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(124,111,255,0.12);
+        }
+        .field select option { background: var(--surface); }
+
+        /* Radio buttons */
+        .radio-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.2rem; }
+        .radio-group label {
+            display: flex; align-items: center; gap: 0.5rem;
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 0.55rem 1rem; border-radius: 8px;
+            cursor: pointer; font-size: 0.88rem; color: var(--text);
+            transition: border-color 0.2s;
+        }
+        .radio-group input[type="radio"] { accent-color: var(--accent); }
+        .radio-group label:has(input:checked) { border-color: var(--accent); background: rgba(124,111,255,0.08); }
+
+        /* Checkboxes for skills */
+        .check-group { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.2rem; }
+        .check-group label {
+            display: flex; align-items: center; gap: 0.5rem;
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 0.5rem 1rem; border-radius: 8px;
+            cursor: pointer; font-size: 0.88rem; color: var(--text);
+            transition: border-color 0.2s;
+        }
+        .check-group input[type="checkbox"] { accent-color: var(--accent); }
+        .check-group label:has(input:checked) { border-color: var(--accent); background: rgba(124,111,255,0.08); }
+
+        /* Agree checkbox */
+        .agree-row {
+            display: flex; align-items: center; gap: 0.75rem;
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 0.9rem 1rem; border-radius: 10px; cursor: pointer;
+        }
+        .agree-row input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px; }
+        .agree-row span { font-size: 0.88rem; color: var(--muted); }
+
+        /* Errors */
+        .errorlist {
+            list-style: none; margin-top: 0.4rem;
+        }
+        .errorlist li {
+            color: var(--error); font-size: 0.8rem;
+            display: flex; align-items: center; gap: 0.3rem;
+        }
+        .errorlist li::before { content: '⚠ '; }
+
+        /* Submit */
+        .submit-btn {
+            width: 100%; padding: 0.95rem;
+            background: var(--accent); color: #fff;
+            border: none; border-radius: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem; font-weight: 600;
+            cursor: pointer; margin-top: 0.5rem;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        .submit-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+        .login-link { text-align: center; margin-top: 1.2rem; color: var(--muted); font-size: 0.85rem; }
+        .login-link a { color: var(--accent); text-decoration: none; }
+
+        .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); opacity: 0.18; }
+        .orb1 { width: 400px; height: 400px; background: var(--accent); top: -50px; right: -100px; }
+        .orb2 { width: 300px; height: 300px; background: var(--accent2); bottom: 50px; left: -80px; }
+    </style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<nav>
+    <a href="{% url 'home' %}" class="nav-logo">Dev<span>Profile</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'registration' %}">Register</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+<div class="page-wrap">
+    <div class="form-card">
+        <div class="form-header">
+            <div class="form-eyebrow">✦ New Profile</div>
+            <h1>Create your profile</h1>
+            <p>Fill in your details to get registered.</p>
+        </div>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            <div class="form-row">
+                <div class="field">
+                    <label for="{{ form.full_name.id_for_label }}">Full Name</label>
+                    {{ form.full_name }}
+                    {{ form.full_name.errors }}
+                </div>
+                <div class="field">
+                    <label for="{{ form.email.id_for_label }}">Email Address</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="field">
+                    <label for="{{ form.password.id_for_label }}">Password</label>
+                    {{ form.password }}
+                    {{ form.password.errors }}
+                </div>
+                <div class="field">
+                    <label for="{{ form.dob.id_for_label }}">Date of Birth</label>
+                    {{ form.dob }}
+                    {{ form.dob.errors }}
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Gender</label>
+                <div class="radio-group">
+                    {% for radio in form.gender %}
+                        <label>{{ radio.tag }} {{ radio.choice_label }}</label>
+                    {% endfor %}
+                </div>
+                {{ form.gender.errors }}
+            </div>
+
+            <div class="field">
+                <label>Skills</label>
+                <div class="check-group">
+                    {% for checkbox in form.skills %}
+                        <label>{{ checkbox.tag }} {{ checkbox.choice_label }}</label>
+                    {% endfor %}
+                </div>
+                {{ form.skills.errors }}
+            </div>
+
+            <div class="field">
+                <label class="agree-row">
+                    {{ form.agree }}
+                    <span>I agree to the terms and conditions</span>
+                </label>
+                {{ form.agree.errors }}
+            </div>
+
+            <button type="submit" class="submit-btn">Create Profile →</button>
+        </form>
+
+        <p class="login-link">Already registered? <a href="{% url 'home' %}">Go Home</a></p>
+    </div>
+</div>
+
+</body>
+</html>

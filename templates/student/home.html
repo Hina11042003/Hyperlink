@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevProfile — Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:       #0a0a0f;
+            --surface:  #13131a;
+            --border:   #1e1e2e;
+            --accent:   #7c6fff;
+            --accent2:  #ff6f91;
+            --text:     #e8e8f0;
+            --muted:    #6b6b80;
+            --card:     #16161f;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.2rem 4rem;
+            background: rgba(10,10,15,0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem; font-weight: 700;
+            color: var(--text); text-decoration: none;
+            letter-spacing: -0.03em;
+        }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--muted); text-decoration: none;
+            font-size: 0.9rem; font-weight: 500; transition: color 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--text); }
+        .nav-cta {
+            background: var(--accent); color: #fff; text-decoration: none;
+            padding: 0.55rem 1.4rem; border-radius: 8px;
+            font-size: 0.88rem; font-weight: 600; transition: opacity 0.2s;
+        }
+        .nav-cta:hover { opacity: 0.85; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 8rem 2rem 4rem; position: relative;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(124,111,255,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-eyebrow {
+            display: inline-block;
+            background: rgba(124,111,255,0.12); border: 1px solid rgba(124,111,255,0.3);
+            color: var(--accent); font-size: 0.78rem; font-weight: 600;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 1.8rem;
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            font-weight: 700; line-height: 1.05;
+            letter-spacing: -0.04em; margin-bottom: 1.5rem;
+        }
+        .hero h1 .grad {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            color: var(--muted); font-size: 1.15rem;
+            max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7;
+        }
+        .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            background: var(--accent); color: #fff;
+            padding: 0.85rem 2rem; border-radius: 10px;
+            text-decoration: none; font-weight: 600; font-size: 0.95rem;
+            transition: transform 0.2s, opacity 0.2s; display: inline-block;
+        }
+        .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+        .btn-outline {
+            border: 1px solid var(--border); color: var(--text);
+            padding: 0.85rem 2rem; border-radius: 10px;
+            text-decoration: none; font-weight: 500; font-size: 0.95rem;
+            transition: border-color 0.2s, background 0.2s; display: inline-block;
+        }
+        .btn-outline:hover { border-color: var(--accent); background: rgba(124,111,255,0.06); }
+
+        /* STATS */
+        .stats {
+            display: flex; justify-content: center; gap: 4rem;
+            flex-wrap: wrap; padding: 1rem 2rem 5rem;
+        }
+        .stat { text-align: center; }
+        .stat-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem; font-weight: 700;
+            color: var(--text); letter-spacing: -0.03em;
+        }
+        .stat-num span { color: var(--accent); }
+        .stat-label { color: var(--muted); font-size: 0.85rem; margin-top: 0.2rem; }
+
+        /* FEATURES */
+        .section { padding: 6rem 2rem; max-width: 1100px; margin: 0 auto; }
+        .section-tag {
+            color: var(--accent); font-size: 0.78rem;
+            font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700; letter-spacing: -0.03em; margin-bottom: 1rem;
+        }
+        .section-sub { color: var(--muted); font-size: 1rem; max-width: 480px; line-height: 1.7; }
+
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+        .card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 16px; padding: 2rem;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .card:hover { border-color: var(--accent); transform: translateY(-4px); }
+        .card-icon {
+            width: 48px; height: 48px; border-radius: 12px;
+            background: rgba(124,111,255,0.12);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 1.2rem;
+        }
+        .card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem; font-weight: 600; margin-bottom: 0.6rem;
+        }
+        .card p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+
+        /* ── PROFILES CTA BAND ── */
+        .profiles-band {
+            max-width: 1100px; margin: 0 auto 6rem; padding: 0 2rem;
+        }
+        .profiles-band-inner {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem 3.5rem;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 2rem; flex-wrap: wrap;
+            position: relative; overflow: hidden;
+            transition: border-color 0.3s;
+        }
+        .profiles-band-inner:hover { border-color: var(--accent); }
+        .profiles-band-inner::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 60% 80% at 100% 50%, rgba(124,111,255,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .profiles-band-left { position: relative; }
+        .profiles-band-left .tag {
+            display: inline-block;
+            background: rgba(124,111,255,0.12); border: 1px solid rgba(124,111,255,0.25);
+            color: var(--accent); font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 0.3rem 0.8rem; border-radius: 100px; margin-bottom: 0.8rem;
+        }
+        .profiles-band-left h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.6rem;
+        }
+        .profiles-band-left p { color: var(--muted); font-size: 0.95rem; max-width: 400px; line-height: 1.6; }
+
+        /* Avatars preview row */
+        .avatar-row { display: flex; align-items: center; gap: 0.5rem; margin-top: 1.2rem; }
+        .avatar-bubble {
+            width: 38px; height: 38px; border-radius: 50%;
+            border: 2px solid var(--bg);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem; font-weight: 700; color: #fff;
+            margin-left: -10px; flex-shrink: 0;
+        }
+        .avatar-bubble:first-child { margin-left: 0; }
+        .avatar-bubble.a1 { background: linear-gradient(135deg, #7c6fff, #a78bfa); }
+        .avatar-bubble.a2 { background: linear-gradient(135deg, #ff6f91, #fb7185); }
+        .avatar-bubble.a3 { background: linear-gradient(135deg, #4ade80, #22d3ee); }
+        .avatar-bubble.a4 { background: linear-gradient(135deg, #fbbf24, #f97316); }
+        .avatar-bubble.more {
+            background: var(--border); color: var(--muted);
+            font-size: 0.72rem;
+        }
+        .avatar-label { color: var(--muted); font-size: 0.82rem; margin-left: 0.6rem; }
+
+        /* Big clickable button on the right */
+        .profiles-cta-btn {
+            display: flex; align-items: center; gap: 0.8rem;
+            background: var(--accent); color: #fff;
+            padding: 1rem 2rem; border-radius: 14px;
+            text-decoration: none; font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700; font-size: 1rem;
+            transition: transform 0.2s, opacity 0.2s;
+            white-space: nowrap; position: relative;
+            flex-shrink: 0;
+        }
+        .profiles-cta-btn:hover { transform: translateY(-3px); opacity: 0.92; }
+        .profiles-cta-btn .arrow {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px; border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            font-size: 1rem; transition: transform 0.2s;
+        }
+        .profiles-cta-btn:hover .arrow { transform: translateX(3px); }
+
+        /* FOOTER */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem 4rem;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 1rem;
+        }
+        footer p { color: var(--muted); font-size: 0.85rem; }
+        .footer-links { display: flex; gap: 1.5rem; }
+        .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--text); }
+
+        /* GLOW ORBS */
+        .orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); opacity: 0.25; }
+        .orb1 { width: 400px; height: 400px; background: var(--accent); top: -100px; right: -100px; }
+        .orb2 { width: 300px; height: 300px; background: var(--accent2); bottom: 100px; left: -80px; }
+    </style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<!-- NAV -->
+<nav>
+    <a href="{% url 'home' %}" class="nav-logo">Dev<span>Profile</span></a>
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'registration' %}">Register</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        {% endif %}
+    </ul>
+</nav>
+<!-- HERO -->
+<section class="hero">
+    <div>
+        <div class="hero-eyebrow">✦ Django Form Project</div>
+        <h1>Build Your<br><span class="grad">Developer Profile</span></h1>
+        <p>Register your skills, experience, and details. Stand out from the crowd with a complete developer profile.</p>
+        <div class="hero-btns">
+            <a href="{% url 'registration' %}" class="btn-primary">Create Profile →</a>
+            <a href="{% url 'about' %}" class="btn-outline">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stat"><div class="stat-num">3<span>+</span></div><div class="stat-label">Skills Tracked</div></div>
+    <div class="stat"><div class="stat-num">100<span>%</span></div><div class="stat-label">Form Validated</div></div>
+    <div class="stat"><div class="stat-num">1<span>min</span></div><div class="stat-label">To Register</div></div>
+</div>
+
+<!-- FEATURES -->
+<div class="section">
+    <div class="section-tag">What you get</div>
+    <div class="section-title">Everything in one place</div>
+    <p class="section-sub">A simple, clean registration system built with Django forms, validation, and database storage.</p>
+    <div class="cards">
+        <div class="card">
+            <div class="card-icon">🛡️</div>
+            <h3>Form Validation</h3>
+            <p>Every field is validated on the server side. No bad data gets into the database.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">⚡</div>
+            <h3>Instant Feedback</h3>
+            <p>Errors are shown right next to the field so users know exactly what to fix.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon">🗄️</div>
+            <h3>Database Storage</h3>
+            <p>All profile data is saved securely to a Django-managed database using ORM.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ PROFILES CTA BAND -->
+<div class="profiles-band">
+    <div class="profiles-band-inner">
+        <div class="profiles-band-left">
+            <div class="tag">✦ Registered Developers</div>
+            <h2>See all profiles</h2>
+            <p>Browse everyone who has registered on DevProfile — their skills, gender, and details all in one place.</p>
+            <div class="avatar-row">
+                <div class="avatar-bubble a1">J</div>
+                <div class="avatar-bubble a2">S</div>
+                <div class="avatar-bubble a3">R</div>
+                <div class="avatar-bubble a4">A</div>
+                <div class="avatar-bubble more">+</div>
+                <span class="avatar-label">Registered developers</span>
+            </div>
+        </div>
+        <a href="{% url 'profiles' %}" class="profiles-cta-btn">
+            View All Profiles
+            <span class="arrow">→</span>
+        </a>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 DevProfile — Built with Django</p>
+    <div class="footer-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'registration' %}">Register</a>
+        <a href="{% url 'profiles' %}">Profiles</a>  <!-- ✅ NEW -->
+    </div>
+</footer>
+
+</body>
+</html>
